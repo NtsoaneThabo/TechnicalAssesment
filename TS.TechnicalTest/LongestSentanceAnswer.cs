@@ -16,12 +16,14 @@ public class LongestSentanceAnswer
         int maxWordsCount = 0;
 
         foreach (string sentence in sentences)
-        {
-            Console.WriteLine(sentence);
-            
+        {   
             int countWords = 0;
 
-            string[] words = sentence.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            // remove spaces
+            string trimmedSentence = sentence.Trim();
+
+            //Get Words from sentence
+            string[] words = trimmedSentence.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
             
             foreach (string word in words)
             {
@@ -29,6 +31,7 @@ public class LongestSentanceAnswer
                     countWords++;
             }
 
+            //Ensure you have the largest count in every iteration
             if (countWords > maxWordsCount)
             {
                 maxWordsCount = countWords;
