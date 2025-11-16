@@ -22,7 +22,7 @@ public class DeepestPitAnswer
         int totalPoints = points.Length;
 
         //Make sure there are atleast 3 points
-        if (totalPoints < 3) 
+        if (totalPoints < 3)
         {
             return -1;
         }
@@ -41,9 +41,27 @@ public class DeepestPitAnswer
             if (points[peakIndex] <= 0)
             {
                 peakIndex++;
-                continue;
+                continue;//no decrease
             }
+
+            //go into pit (consistent decrease)
+            int valleyIndex = peakIndex;
+            while (valleyIndex < totalPoints - 1 && points[valleyIndex] > points[valleyIndex - 1])
+            {
+                valleyIndex++;
+            }
+
+            if (valleyIndex == peakIndex)
+            {
+                peakIndex = valleyIndex;
+                continue;//no increase
+            }
+
         }
+
+        
+
+
 
         return deepestDepth;
     }
