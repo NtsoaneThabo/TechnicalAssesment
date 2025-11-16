@@ -2,20 +2,6 @@
 
 public class DeepestPitAnswer
 {
-
-    /*
-     * A non-empty array A consisting of N integers is given. A pit in this array is any triplet of integers (P, Q, R) such that
-        Each element of array A is an integer within the range [−100,000,000..100,000,000].
-        •
-        Only count the pit if the decline started above ground i.e., 0
-        •
-        Only count it as a pit if the decline is uninterrupted until the lowest point is reached (No flat line)
-        •
-        You stop counting when the water reaches the first ridge
-        •
-        The response must be -1 if there is no pits found in the provided array
-     */
-
     public static int Solution(int[] points)
     {
         //Get Length of points
@@ -35,10 +21,13 @@ public class DeepestPitAnswer
         {
             //find the peak, the pit must start after peak
             while (peakIndex < totalPoints - 1 && points[peakIndex] <= points[peakIndex + 1])
+            {
                 peakIndex++;
 
+            }
+
             //if towards the end of array and no pit found yet
-            if (points[peakIndex] >= totalPoints -2)
+            if (points[peakIndex] >= totalPoints - 2)
             {
                 break;
             }
@@ -52,6 +41,7 @@ public class DeepestPitAnswer
 
             //go into pit (consistent decrease)
             int valleyIndex = peakIndex;
+
             while (valleyIndex < totalPoints - 1 && points[valleyIndex] > points[valleyIndex + 1])
             {
                 valleyIndex++;
@@ -79,17 +69,11 @@ public class DeepestPitAnswer
             //calculate depth of pit
             int initialSlope = points[peakIndex] - points[valleyIndex]; //starting and depth index
             int finalSlope = points[ridgeIndex] - points[valleyIndex]; //ridge and valley index
+            int Pit = Math.Min(initialSlope, finalSlope); //get smallest side of the pit that was found
 
-            // assign deepestDepth to the smaller side of the pit
-            if (initialSlope < finalSlope) 
-            {
-                deepestDepth = initialSlope; 
-            }
-            else
-            {
-                deepestDepth = finalSlope;
-            }
+            deepestDepth = Pit;
 
+            peakIndex = ridgeIndex;//Move forward from where we stopped to look for another pit going forward
         }
 
         return deepestDepth;
