@@ -11,7 +11,7 @@ public class LongestSentanceAnswer
             return 0;
 
         //Determine sentences
-        string[] sentences = s.Split(new char[] { '.', '?', '!' });
+        string[] sentences = s.Split(new char[] { '.', '?', '!' }, StringSplitOptions.RemoveEmptyEntries);
 
         int maxWordsCount = 0;
 
@@ -21,9 +21,13 @@ public class LongestSentanceAnswer
             
             int countWords = 0;
 
-            string[] words = sentence.Split(new char[] { ' ' });
-            foreach (string word in words) 
-                countWords++;
+            string[] words = sentence.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            
+            foreach (string word in words)
+            {
+                if(HasLetter(word))
+                    countWords++;
+            }
 
             if (countWords > maxWordsCount)
             {
@@ -32,5 +36,19 @@ public class LongestSentanceAnswer
         }
 
         return maxWordsCount;
+    }
+
+    private static bool HasLetter(string word)
+    {
+        //check if it' a word
+        foreach (char letter in word)
+        {
+            if (char.IsLetter(letter))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
