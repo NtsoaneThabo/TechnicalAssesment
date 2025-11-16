@@ -37,16 +37,22 @@ public class DeepestPitAnswer
             while (peakIndex < totalPoints - 1 && points[peakIndex] <= points[peakIndex + 1])
                 peakIndex++;
 
+            //if towards the end of array and no pit found yet
+            if (points[peakIndex] >= totalPoints -2)
+            {
+                break;
+            }
+
             //Peak must be above ground
             if (points[peakIndex] <= 0)
             {
                 peakIndex++;
-                continue;//no decrease
+                continue;
             }
 
             //go into pit (consistent decrease)
             int valleyIndex = peakIndex;
-            while (valleyIndex < totalPoints - 1 && points[valleyIndex] > points[valleyIndex - 1])
+            while (valleyIndex < totalPoints - 1 && points[valleyIndex] > points[valleyIndex + 1])
             {
                 valleyIndex++;
             }
@@ -54,14 +60,37 @@ public class DeepestPitAnswer
             if (valleyIndex == peakIndex)
             {
                 peakIndex = valleyIndex;
-                continue;//no increase
+                continue;//no decrease
+            }
+
+            //do for the other side
+            int ridgeIndex = valleyIndex;
+            while(ridgeIndex < totalPoints - 1 && points[ridgeIndex] < points[ridgeIndex + 1])
+            {
+                ridgeIndex++;
+            }
+
+            if (ridgeIndex == valleyIndex) 
+            {
+                peakIndex = valleyIndex;
+                continue; //no incline
+            }
+
+            //calculate depth of pit
+            int initialSlope = points[peakIndex] - points[valleyIndex]; //starting and depth index
+            int finalSlope = points[ridgeIndex] - points[valleyIndex]; //ridge and valley index
+
+            // assign deepestDepth to the smaller side of the pit
+            if (initialSlope < finalSlope) 
+            {
+                deepestDepth = initialSlope; 
+            }
+            else
+            {
+                deepestDepth = finalSlope;
             }
 
         }
-
-        
-
-
 
         return deepestDepth;
     }
